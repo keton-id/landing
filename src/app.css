@@ -96,8 +96,8 @@ button {
 
 .brand {
   font-weight: 900;
-  letter-spacing: -0.06em;
-  font-size: clamp(1.4rem, 3vw, 2rem);
+  letter-spacing: -0.08em;
+  font-size: clamp(2.2rem, 5vw, 3.8rem);
 }
 
 .topbar nav {
@@ -289,7 +289,6 @@ h1 {
   color: var(--text-soft);
 }
 
-.stack-section,
 .projects {
   margin-top: 1.4rem;
 }
@@ -304,15 +303,10 @@ h1 {
   letter-spacing: -0.06em;
 }
 
-.stack-grid,
 .project-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
-}
-
-.stack-pill {
-  text-align: center;
 }
 
 .project-card {
@@ -346,11 +340,27 @@ h1 {
   letter-spacing: -0.05em;
 }
 
+.project-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+
+.project-stack span {
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  background: var(--chip-bg);
+  border: 1px solid var(--chip-border);
+  color: var(--text-main);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
 @media (max-width: 900px) {
   .hero,
   .signal-grid,
-  .project-grid,
-  .stack-grid {
+  .project-grid {
     grid-template-columns: 1fr;
   }
 
@@ -393,7 +403,7 @@ h1 {
   }
 
   .brand {
-    font-size: 1.55rem;
+    font-size: 2.4rem;
   }
 
   h1 {
@@ -412,7 +422,7 @@ h1 {
   }
 
   .chip-row span,
-  .stack-pill {
+  .project-stack span {
     width: 100%;
     box-sizing: border-box;
     text-align: center;

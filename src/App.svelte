@@ -14,30 +14,32 @@
     'small experiments that ship'
   ]
 
-  const stack = ['Svelte', 'Vite', 'GitHub Pages', 'GitHub Actions']
-
   const projects = [
     {
       name: 'jira-commands',
       type: 'CLI / Agent Tooling',
+      stack: ['TypeScript', 'Node.js', 'CLI'],
       desc: 'A Jira toolkit for terminals, coding assistants, and bots.',
       href: 'https://jirac.keton.id'
     },
     {
       name: 'vod',
       type: 'Dashboard',
+      stack: ['SvelteKit', 'Dashboard UI', 'Google Meet Ops'],
       desc: 'A virtual office dashboard to monitor multiple Google Meet rooms from one place.',
       href: 'https://github.com/keton-id/vod'
     },
     {
       name: 'pkgmap',
       type: 'Monitoring Tool',
+      stack: ['TypeScript', 'Package Graphs', 'Observability'],
       desc: 'A package-state and dependency mapping tool for understanding what is installed and why.',
       href: 'https://github.com/mulhamna/pkgmap'
     },
     {
       name: 'portbar',
       type: 'Mac Utility',
+      stack: ['Swift', 'macOS', 'Menu Bar'],
       desc: 'A lightweight menu bar utility for monitoring ports and local service exposure.',
       href: 'https://github.com/mulhamna/portbar'
     }
@@ -139,19 +141,6 @@
       </article>
     </section>
 
-    <section class="stack-section" id="stack">
-      <div class="section-head">
-        <p class="eyebrow">stack</p>
-        <h2>Built with a simple stack that ships fast</h2>
-      </div>
-
-      <div class="stack-grid">
-        {#each stack as item}
-          <div class="stack-pill">{item}</div>
-        {/each}
-      </div>
-    </section>
-
     <section class="projects" id="projects">
       <div class="section-head">
         <p class="eyebrow">selected work</p>
@@ -166,6 +155,11 @@
               <span class="arrow">↗</span>
             </div>
             <h3>{project.name}</h3>
+            <div class="project-stack" aria-label={`${project.name} stack`}>
+              {#each project.stack as item}
+                <span>{item}</span>
+              {/each}
+            </div>
             <p>{project.desc}</p>
           </a>
         {/each}
