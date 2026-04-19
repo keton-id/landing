@@ -18,28 +18,28 @@
     {
       name: 'jira-commands',
       type: 'CLI / Agent Tooling',
-      stack: ['TypeScript', 'Node.js', 'CLI'],
+      stack: ['Rust', 'Shell'],
       desc: 'A Jira toolkit for terminals, coding assistants, and bots.',
       href: 'https://jirac.keton.id'
     },
     {
       name: 'vod',
       type: 'Dashboard',
-      stack: ['SvelteKit', 'Dashboard UI', 'Google Meet Ops'],
+      stack: ['TypeScript', 'JavaScript', 'Docker'],
       desc: 'A virtual office dashboard to monitor multiple Google Meet rooms from one place.',
       href: 'https://github.com/keton-id/vod'
     },
     {
       name: 'pkgmap',
       type: 'Monitoring Tool',
-      stack: ['TypeScript', 'Package Graphs', 'Observability'],
+      stack: ['JavaScript', 'Shell'],
       desc: 'A package-state and dependency mapping tool for understanding what is installed and why.',
       href: 'https://github.com/mulhamna/pkgmap'
     },
     {
       name: 'portbar',
       type: 'Mac Utility',
-      stack: ['Swift', 'macOS', 'Menu Bar'],
+      stack: ['Swift', 'Shell', 'Ruby'],
       desc: 'A lightweight menu bar utility for monitoring ports and local service exposure.',
       href: 'https://github.com/mulhamna/portbar'
     }
