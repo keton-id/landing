@@ -1,7 +1,10 @@
 <script>
+  import { onMount } from 'svelte'
+
   const links = [
     { label: 'GitHub', href: 'https://github.com/keton-id' },
     { label: 'Projects', href: '#projects' },
+    { label: 'Stack', href: '#stack' },
     { label: 'Contact', href: 'mailto:hello@keton.id' }
   ]
 
@@ -10,6 +13,8 @@
     'practical internal systems',
     'small experiments that ship'
   ]
+
+  const stack = ['Svelte', 'Vite', 'GitHub Pages', 'GitHub Actions']
 
   const projects = [
     {
@@ -25,12 +30,33 @@
       href: 'https://github.com/keton-id/vod'
     },
     {
-      name: 'next build',
-      type: 'In Progress',
-      desc: 'Always cooking something useful, weird, or quietly powerful.',
-      href: 'https://github.com/keton-id'
+      name: 'pkgmap',
+      type: 'Monitoring Tool',
+      desc: 'A package-state and dependency mapping tool for understanding what is installed and why.',
+      href: 'https://github.com/mulhamna/pkgmap'
+    },
+    {
+      name: 'portbar',
+      type: 'Mac Utility',
+      desc: 'A lightweight menu bar utility for monitoring ports and local service exposure.',
+      href: 'https://github.com/mulhamna/portbar'
     }
   ]
+
+  let theme = 'dark'
+
+  onMount(() => {
+    const saved = localStorage.getItem('keton-theme')
+    const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches
+    theme = saved || (prefersLight ? 'light' : 'dark')
+    document.documentElement.setAttribute('data-theme', theme)
+  })
+
+  function toggleTheme() {
+    theme = theme === 'dark' ? 'light' : 'dark'
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('keton-theme', theme)
+  }
 </script>
 
 <svelte:head>
@@ -44,11 +70,18 @@
 <div class="page-shell">
   <header class="topbar">
     <a class="brand" href="/">keton.id</a>
-    <nav>
-      {#each links as link}
-        <a href={link.href}>{link.label}</a>
-      {/each}
-    </nav>
+
+    <div class="topbar-actions">
+      <nav>
+        {#each links as link}
+          <a href={link.href}>{link.label}</a>
+        {/each}
+      </nav>
+
+      <button class="theme-toggle" type="button" on:click={toggleTheme} aria-label="Toggle color mode">
+        {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+      </button>
+    </div>
   </header>
 
   <main>
@@ -104,6 +137,19 @@
         <h2>Quietly shipping</h2>
         <p>Not loud for the sake of it, just consistently making things that matter.</p>
       </article>
+    </section>
+
+    <section class="stack-section" id="stack">
+      <div class="section-head">
+        <p class="eyebrow">stack</p>
+        <h2>Built with a simple stack that ships fast</h2>
+      </div>
+
+      <div class="stack-grid">
+        {#each stack as item}
+          <div class="stack-pill">{item}</div>
+        {/each}
+      </div>
     </section>
 
     <section class="projects" id="projects">
