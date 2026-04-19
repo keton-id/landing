@@ -51,9 +51,9 @@ button {
 }
 
 .brand {
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  font-size: clamp(1.4rem, 3vw, 2rem);
 }
 
 .topbar nav {
@@ -97,8 +97,9 @@ button {
 .label,
 .type {
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  font-size: 0.84rem;
+  font-weight: 700;
   color: #7fe7b0;
 }
 
@@ -110,18 +111,18 @@ p {
 }
 
 h1 {
-  font-size: clamp(2.6rem, 8vw, 5.7rem);
-  line-height: 0.95;
-  letter-spacing: -0.06em;
+  font-size: clamp(3.6rem, 10vw, 7.4rem);
+  line-height: 0.9;
+  letter-spacing: -0.08em;
   margin-top: 0.8rem;
-  max-width: 10ch;
+  max-width: 9ch;
 }
 
 .lede {
   margin-top: 1.25rem;
-  font-size: 1.05rem;
+  font-size: clamp(1.15rem, 2.4vw, 1.4rem);
   color: #a9bdd0;
-  max-width: 58ch;
+  max-width: 52ch;
 }
 
 .chip-row {
@@ -132,12 +133,13 @@ h1 {
 }
 
 .chip-row span {
-  padding: 0.65rem 0.9rem;
+  padding: 0.75rem 1rem;
   border-radius: 999px;
   background: rgba(127, 231, 176, 0.1);
   border: 1px solid rgba(127, 231, 176, 0.16);
   color: #d9fff0;
-  font-size: 0.95rem;
+  font-size: 1.02rem;
+  font-weight: 600;
 }
 
 .cta-row {
@@ -225,8 +227,8 @@ h1 {
 
 .signal-grid h2 {
   margin-top: 0.6rem;
-  font-size: 1.28rem;
-  letter-spacing: -0.04em;
+  font-size: 1.5rem;
+  letter-spacing: -0.05em;
 }
 
 .signal-grid p:last-child {
@@ -244,8 +246,8 @@ h1 {
 
 .section-head h2 {
   margin-top: 0.45rem;
-  font-size: clamp(1.7rem, 4vw, 2.6rem);
-  letter-spacing: -0.05em;
+  font-size: clamp(2.1rem, 5vw, 3.4rem);
+  letter-spacing: -0.06em;
 }
 
 .project-grid {
@@ -281,8 +283,8 @@ h1 {
 
 .project-card h3 {
   margin-top: 1rem;
-  font-size: 1.3rem;
-  letter-spacing: -0.04em;
+  font-size: 1.55rem;
+  letter-spacing: -0.05em;
 }
 
 .project-card p {
@@ -331,6 +333,19 @@ h1 {
   .signal-grid article,
   .project-card {
     border-radius: 18px;
+  }
+
+  .brand {
+    font-size: 1.55rem;
+  }
+
+  h1 {
+    font-size: clamp(3.2rem, 15vw, 4.8rem);
+    max-width: none;
+  }
+
+  .lede {
+    font-size: 1.08rem;
   }
 
   .btn {
