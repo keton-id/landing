@@ -5,7 +5,7 @@
     { label: 'GitHub', href: 'https://github.com/keton-id' },
     { label: 'Projects', href: '#projects' },
     { label: 'Stack', href: '#stack' },
-    { label: 'Contact', href: 'mailto:mulhamna@gmail.com' }
+    { label: 'Contact', href: 'mailto:hello@keton.id' }
   ]
 
   const highlights = [
