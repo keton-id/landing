@@ -27,13 +27,13 @@
 
   const projects = [
     {
-      name: 'jirac',
-      mark: 'jc',
-      markVariant: 'jirac',
-      type: 'CLI / TUI / MCP',
-      stack: ['Rust', 'Shell'],
-      desc: 'A fast Jira CLI with terminal UI and MCP integration for AI-assisted workflows.',
-      href: 'https://jirac.keton.id'
+      name: 'monobox',
+      mark: '/monobox.svg',
+      markVariant: 'monobox',
+      type: 'Containers',
+      hideStackInTicker: true,
+      desc: 'Agent self-hosted platform for provisioning boxes.',
+      href: 'https://monobox.id'
     },
     {
       name: 'cora',
@@ -43,6 +43,15 @@
       stack: ['Zig'],
       desc: 'Zero-knowledge secret injection for AI agents. One encrypted file, one passphrase, no secrets in env.',
       href: 'https://cora.keton.id'
+    },
+    {
+      name: 'jirac',
+      mark: 'jc',
+      markVariant: 'jirac',
+      type: 'CLI / TUI / MCP',
+      stack: ['Rust', 'Shell'],
+      desc: 'A fast Jira CLI with terminal UI and MCP integration for AI-assisted workflows.',
+      href: 'https://jirac.keton.id'
     },
     {
       name: 'pkgmap',
@@ -234,7 +243,13 @@
                 target="_blank"
                 rel="noreferrer"
               >
-                <span class="project-mark project-mark--{p.markVariant}">{p.mark}</span>
+                <span class="project-mark project-mark--{p.markVariant}">
+                    {#if p.mark.startsWith('/')}
+                      <img src={p.mark} alt="" width="24" height="24" />
+                    {:else}
+                      {p.mark}
+                    {/if}
+                  </span>
                 <div class="project-ticker__body">
                   <h4>
                     {p.name}
@@ -242,6 +257,7 @@
                   </h4>
                   <p class="project-ticker__type">{p.type}</p>
                   <p class="project-ticker__desc">{p.desc}</p>
+                  {#if !p.hideStackInTicker}
                   <div class="project-ticker__stack" aria-label={`${p.name} stack`}>
                     {#each p.stack as item}
                       <span>
@@ -259,6 +275,7 @@
                       </span>
                     {/each}
                   </div>
+                  {/if}
                 </div>
               </a>
             {/if}
@@ -319,7 +336,13 @@
         {#each projects as project}
           <a class="project-card" href={project.href} target="_blank" rel="noreferrer">
             <div class="project-top">
-              <span class="project-mark project-mark--{project.markVariant}">{project.mark}</span>
+              <span class="project-mark project-mark--{project.markVariant}">
+                {#if project.mark.startsWith('/')}
+                  <img src={project.mark} alt="" width="26" height="26" />
+                {:else}
+                  {project.mark}
+                {/if}
+              </span>
               <span class="arrow" aria-hidden="true">↗</span>
             </div>
             <h3>{project.name}</h3>
