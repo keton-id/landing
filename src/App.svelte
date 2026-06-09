@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from 'svelte'
+  import { onMount, onDestroy } from 'svelte'
 
   const links = [
     { label: 'GitHub', href: 'https://github.com/keton-id' },
@@ -27,13 +27,13 @@
 
   const projects = [
     {
-      name: 'jirac',
-      mark: 'jc',
-      markVariant: 'jirac',
-      type: 'CLI / TUI / MCP',
-      stack: ['Rust', 'Shell'],
-      desc: 'A fast Jira CLI with terminal UI and MCP integration for AI-assisted workflows.',
-      href: 'https://jirac.keton.id'
+      name: 'monobox',
+      mark: '/monobox.svg',
+      markVariant: 'monobox',
+      type: 'Containers',
+      hideStackInTicker: true,
+      desc: 'Agent self-hosted platform for provisioning boxes.',
+      href: 'https://monobox.id'
     },
     {
       name: 'cora',
@@ -43,6 +43,15 @@
       stack: ['Zig'],
       desc: 'Zero-knowledge secret injection for AI agents. One encrypted file, one passphrase, no secrets in env.',
       href: 'https://cora.keton.id'
+    },
+    {
+      name: 'jirac',
+      mark: 'jc',
+      markVariant: 'jirac',
+      type: 'CLI / TUI / MCP',
+      stack: ['Rust', 'Shell'],
+      desc: 'A fast Jira CLI with terminal UI and MCP integration for AI-assisted workflows.',
+      href: 'https://jirac.keton.id'
     },
     {
       name: 'pkgmap',
@@ -55,9 +64,30 @@
     }
   ]
 
-  let theme = 'dark'
+  let theme = $state('dark')
+  let current = $state(0)
+  let paused = $state(false)
+  let tickerTimer
+  let showLineup = $state(false)
+
+  function openLineup(e) {
+    e.preventDefault()
+    showLineup = true
+  }
+
+  function closeLineup() {
+    showLineup = false
+  }
+
+  function onKey(e) {
+    if (e.key === 'Escape') showLineup = false
+  }
 
   onMount(() => {
+    tickerTimer = setInterval(() => {
+      if (!paused) current = (current + 1) % projects.length
+    }, 4000)
+
     const saved = localStorage.getItem('keton-theme')
     const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches
     theme = saved || (prefersLight ? 'light' : 'dark')
@@ -77,6 +107,10 @@
     document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el))
   })
 
+  onDestroy(() => {
+    if (tickerTimer) clearInterval(tickerTimer)
+  })
+
   function toggleTheme() {
     theme = theme === 'dark' ? 'light' : 'dark'
     document.documentElement.setAttribute('data-theme', theme)
@@ -85,7 +119,7 @@
 </script>
 
 <svelte:head>
-  <title>keton.id — always cooking something</title>
+  <title>keton.id — Building Strange Useful Things.</title>
   <meta
     name="description"
     content="keton.id builds developer-flavored tools, internal systems, and always seems to be cooking something new."
@@ -144,7 +178,7 @@
 
       <div class="hero-copy">
         <p class="eyebrow">developer nuance, practical output</p>
-        <h1>Always cooking something.</h1>
+        <h1>Building Strange Useful Things.</h1>
         <p class="lede">
           Keton builds developer-facing tools and internal systems with a bias for shipping,
           clarity, and useful little edges.
@@ -157,27 +191,97 @@
         </div>
 
         <div class="cta-row">
-          <a class="btn primary" href="#projects">See what&apos;s cooking</a>
+          <a class="btn primary" href="#projects" on:click={openLineup}>See our lineup</a>
           <a class="btn secondary" href="https://github.com/keton-id">Open GitHub</a>
         </div>
       </div>
 
-      <aside class="terminal-card" aria-label="Developer preview card">
-        <div class="terminal-bar">
-          <span></span><span></span><span></span>
-          <span class="terminal-bar__title">keton.id — zsh</span>
-        </div>
-        <div class="terminal-body">
-          <p><span class="prompt">$</span> whoami</p>
-          <p class="answer">keton.id</p>
-          <p><span class="prompt">$</span> status</p>
-          <p class="answer">shipping tools for people who build</p>
-          <p><span class="prompt">$</span> stack</p>
-          <p class="answer">rust · zig · swift · typescript</p>
-          <p><span class="prompt">$</span> motto</p>
-          <p class="answer accent caret">always cooking something</p>
-        </div>
-      </aside>
+      <div class="hero-right">
+        <aside class="terminal-card" aria-label="Developer preview card">
+          <div class="terminal-bar">
+            <span></span><span></span><span></span>
+            <span class="terminal-bar__title">keton.id — zsh</span>
+          </div>
+          <div class="terminal-body">
+            <p><span class="prompt">$</span> whoami</p>
+            <p class="answer">keton.id</p>
+            <p><span class="prompt">$</span> status</p>
+            <p class="answer">shipping tools for people who build</p>
+            <p><span class="prompt">$</span> stack</p>
+            <p class="answer">rust · zig · swift · typescript</p>
+            <p><span class="prompt">$</span> motto</p>
+            <p class="answer accent caret">Building Strange Useful Things.</p>
+          </div>
+        </aside>
+
+        <aside
+          class="project-ticker"
+          id="projects"
+          aria-label="Featured projects"
+          on:mouseenter={() => (paused = true)}
+          on:mouseleave={() => (paused = false)}
+        >
+          <div class="project-ticker__head">
+            <span class="project-ticker__label">Our Lineup!</span>
+            <div class="project-ticker__dots" role="tablist">
+              {#each projects as _, i}
+                <button
+                  type="button"
+                  class:active={i === current}
+                  on:click={() => (current = i)}
+                  aria-label={`Show project ${i + 1}`}
+                ></button>
+              {/each}
+            </div>
+          </div>
+
+          {#each projects as p, i}
+            {#if i === current}
+              <a
+                class="project-ticker__slide"
+                href={p.href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span class="project-mark project-mark--{p.markVariant}">
+                    {#if p.mark.startsWith('/')}
+                      <img src={p.mark} alt="" width="24" height="24" />
+                    {:else}
+                      {p.mark}
+                    {/if}
+                  </span>
+                <div class="project-ticker__body">
+                  <h4>
+                    {p.name}
+                    <span class="arrow" aria-hidden="true">↗</span>
+                  </h4>
+                  <p class="project-ticker__type">{p.type}</p>
+                  <p class="project-ticker__desc">{p.desc}</p>
+                  {#if !p.hideStackInTicker}
+                  <div class="project-ticker__stack" aria-label={`${p.name} stack`}>
+                    {#each p.stack as item}
+                      <span>
+                        {#if stackIcons[item]}
+                          <img
+                            class="stack-icon"
+                            src={`https://cdn.simpleicons.org/${stackIcons[item].slug}/${stackIcons[item].color}`}
+                            alt=""
+                            width="14"
+                            height="14"
+                            loading="lazy"
+                          />
+                        {/if}
+                        {item}
+                      </span>
+                    {/each}
+                  </div>
+                  {/if}
+                </div>
+              </a>
+            {/if}
+          {/each}
+        </aside>
+      </div>
     </section>
 
     <section class="signal-grid" id="stack" data-reveal>
@@ -201,17 +305,44 @@
       </article>
     </section>
 
-    <section class="projects" id="projects" data-reveal>
-      <div class="section-head">
-        <p class="eyebrow">selected work</p>
-        <h2>Things on the stove</h2>
+  </main>
+
+  <footer class="site-footer" data-reveal>
+    <p>© {new Date().getFullYear()} keton.id — Building Strange Useful Things.</p>
+    <a href="mailto:hello@keton.id">hello@keton.id</a>
+  </footer>
+</div>
+
+<svelte:window on:keydown={onKey} />
+
+{#if showLineup}
+  <div
+    class="lineup-modal"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Project lineup"
+    on:click={closeLineup}
+  >
+    <div class="lineup-modal__panel" on:click|stopPropagation>
+      <div class="lineup-modal__head">
+        <div>
+          <p class="eyebrow">our lineup</p>
+          <h2>Things on the stove</h2>
+        </div>
+        <button class="lineup-modal__close" type="button" on:click={closeLineup} aria-label="Close">×</button>
       </div>
 
       <div class="project-grid">
         {#each projects as project}
           <a class="project-card" href={project.href} target="_blank" rel="noreferrer">
             <div class="project-top">
-              <span class="project-mark project-mark--{project.markVariant}">{project.mark}</span>
+              <span class="project-mark project-mark--{project.markVariant}">
+                {#if project.mark.startsWith('/')}
+                  <img src={project.mark} alt="" width="26" height="26" />
+                {:else}
+                  {project.mark}
+                {/if}
+              </span>
               <span class="arrow" aria-hidden="true">↗</span>
             </div>
             <h3>{project.name}</h3>
@@ -238,11 +369,6 @@
           </a>
         {/each}
       </div>
-    </section>
-  </main>
-
-  <footer class="site-footer" data-reveal>
-    <p>© {new Date().getFullYear()} keton.id — always cooking something.</p>
-    <a href="mailto:hello@keton.id">hello@keton.id</a>
-  </footer>
-</div>
+    </div>
+  </div>
+{/if}
